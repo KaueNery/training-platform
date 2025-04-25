@@ -12,3 +12,10 @@ model User {
   name  String
   email String @unique
 }
+
+model Workout {
+  id        Int      @id @default(autoincrement())
+  title     String
+  duration  Int      // Duration in minutes
+  createdAt DateTime @default(now())
+}
