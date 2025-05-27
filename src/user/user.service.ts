@@ -29,4 +29,16 @@ export class UserService {
     await this.findOne(id);
     return this.prisma.user.delete({ where: { id } });
   }
+
+  async getUserActivities(userId: number) {
+    // Ensure user exists
+    await this.findOne(userId);
+  
+    // Fetch activities related to the user
+    return this.prisma.activity.findMany({
+      where: { userId },
+      orderBy: { startTime: 'desc' }, // Optional: Order by start time
+    });
+  }
+  
 }

@@ -30,4 +30,9 @@ export class UserController {
   remove(@Param('id') id: string) {
     return this.userService.remove(+id);
   }
+
+  @Get(':id/activities')
+  getUserActivities(@Param('id') id: string) {
+    return this.userService.getUserActivities(+id);
+  }
 }

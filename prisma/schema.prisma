@@ -8,15 +8,45 @@ datasource db {
 }
 
 model User {
-  id    Int    @id @default(autoincrement())
-  name  String
-  email String @unique
+  id         Int       @id @default(autoincrement())
+  name       String
+  email      String    @unique
+  password   String
+  activities Activity[]  // 🔥 Relation to Activity
+  age        Int
+  country    String
 }
 
 model Workout {
   id          Int      @id @default(autoincrement())
   title       String
   duration    Int      // Duration in minutes
-  description String 
+  description String
   createdAt   DateTime @default(now())
+}
+
+model Activity {
+  id               String    @id @default(uuid())
+  
+  userId           Int      
+  user             User      @relation(fields: [userId], references: [id]) // 🛠 Proper relation
+
+  name             String?   // Activity name
+  sportType        String    // e.g., 'running', 'cycling', 'swimming'
+  startTime        DateTime  // Activity start timestamp
+  
+  distanceKm       Float     // Distance in kilometers
+  durationSec      Int       // Duration in seconds
+  avgPace          String    // Formatted pace like "5:48"
+  avgHr            Int?      // Average heart rate
+  maxHr            Int?      // Maximum heart rate
+  elevationGainM   Float?    // Elevation gain in meters
+  elevationLossM   Float?    // Elevation loss in meters
+
+  splits           Json?     // List of per-km or per-lap splits
+  heartRateSeries  Json?     // Time series {timestamp, hr}
+  elevationSeries  Json?     // Time series {timestamp, elevation}
+  
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
 }
